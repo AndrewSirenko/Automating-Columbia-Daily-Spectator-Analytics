@@ -1,0 +1,15 @@
+{
+  "name": "spec-analytics",
+  "version": "1.0.0",
+  "description": "Uses Google Analytics API to automate analysis of www.columbiaspectator.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrew Sirenko",
+  "license": "ISC",
+  "dependencies": {
+    "googleapis": "^55.0.0",
+    "dotenv": "^8.2.0"
+  }
+}
