@@ -1,31 +1,67 @@
+'use strict';
+
 const dotenv = require('dotenv').config();
 const { google } = require('googleapis');
+const key = require('./auth.json');
 
 // Sets API scope: read only (to view reports)
-const scopes = 'https://www.googleapis.com/auth/analytics.readonly';
+const SCOPES = ['https://www.googleapis.com/auth/analytics.readonly'];
+// Path to service account json
+const SERVICE_ACCOUNT_FILE = '/Users/Andrew/Dev/spec/auth.json';
 
-// JSON web token. Passed to any API request we make
-const jwt = new google.auth.JWT(
-  process.env.CLIENT_EMAIL,
-  null,
-  process.env.PRIVATE_KEY,
-  scopes
-);
+// Create a new JWT client using the key file downloaded from the Google Developer Console
+const auth = new google.auth.GoogleAuth({
+    keyFile: SERVICE_ACCOUNT_FILE,
+    scopes: SCOPES,
+});
 
-//Found in Analytics>Settings>ADMIN>View_Settings>View_ID
-const view_id = process.env.VIEW_ID;
-
+// Requests data from Analytics API
 async function getData() {
-  const response = await jwt.authorize();
-  const result = await google.analytics('v3').data.ga.get({
-    auth: jwt,
-    ids: 'ga:' + view_id,
-    'start-date': '30daysAgo',
-    'end-date': 'today',
-    metrics: 'ga:pageviews',
-  });
+    // Authorization
+    const client = await auth.getClient();
 
-  console.dir(result);
+    // Obtains new analytics client, making sure we are authorized
+    const analytics = google.analyticsreporting({
+        version: 'v4',
+        auth: client,
+    });
+
+    // GETs data
+    const res = await analytics.reports.batchGet({
+        requestBody: {
+            reportRequests: [
+                {
+                    // Found in Analytics>Settings>ADMIN>View_Settings>View_ID
+                    viewId: process.env.VIEW_ID,
+                    // What time-frames are we analyzing (up to 2)
+                    dateRanges: [
+                        {
+                            startDate: '7daysAgo',
+                            endDate: '1daysAgo',
+                        },
+                        {
+                            startDate: '14daysAgo',
+                            endDate: '8daysAgo',
+                        },
+                    ],
+                    // What metrics do we want
+                    metrics: [
+                        {
+                            expression: 'ga:users',
+                        },
+                    ],
+                },
+            ],
+        },
+    });
+
+    // Raw Output for testing
+    console.dir(res);
+
+    console.dir(res.data);
+    return res.data;
+
+    // TODO throw exception for non 2xx status code
 }
 
 getData();
