@@ -1,3 +1,6 @@
+Ask isa
+-Why track pageviews from new users instead of sessions?
+
 
 TODO
 - Create batchget template using sports

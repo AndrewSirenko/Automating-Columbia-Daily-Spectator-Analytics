@@ -47,7 +47,16 @@ async function getData() {
                     // What metrics do we want
                     metrics: [
                         {
-                            expression: 'ga:users',
+                            expression: 'ga:pageviews',
+                        },
+                        {
+                            expression: 'ga:sessions',
+                        },
+                        {
+                            expression: 'ga:entrances',
+                        },
+                        {
+                            expression: 'ga:avgTimeOnPage',
                         },
                     ],
                 },
@@ -68,8 +77,19 @@ async function getData() {
 
 async function output() {
     let report = await getData();
-    console.dir(report.columnHeader.metricHeader.metricHeaderEntries);
+
+    //Puts metric headers into an array
+    const headersRaw = report.columnHeader.metricHeader.metricHeaderEntries;
+    var headers = [];
+    for (var i = 0, header; (header = headersRaw[i]); i++) {
+        headers.push(header.name);
+    }
+
+    console.dir(headers);
     console.dir(report.data.rows[0].metrics);
+    console.dir();
+    console.dir();
+    console.dir(report);
 }
 
 output();
