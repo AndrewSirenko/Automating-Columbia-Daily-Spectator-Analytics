@@ -76,20 +76,18 @@ async function getData() {
 }
 
 async function output() {
-    let report = await getData();
+    //Destructures batchGet report
+    let { columnHeader, data } = await getData();
 
     //Puts metric headers into an array
-    const headersRaw = report.columnHeader.metricHeader.metricHeaderEntries;
+    const headersRaw = columnHeader.metricHeader.metricHeaderEntries;
     var headers = [];
     for (var i = 0, header; (header = headersRaw[i]); i++) {
         headers.push(header.name);
     }
 
     console.dir(headers);
-    console.dir(report.data.rows[0].metrics);
-    console.dir();
-    console.dir();
-    console.dir(report);
+    console.dir(data.rows[0].metrics);
 }
 
 output();
