@@ -56,12 +56,20 @@ async function getData() {
     });
 
     // Raw Output for testing
-    console.dir(res);
+    // console.dir(res);
 
-    console.dir(res.data);
-    return res.data;
+    // console.dir(res.data);
+    // console.dir(res.data.reports);
+    return res.data.reports[0];
 
     // TODO throw exception for non 2xx status code
+    //https://developers.google.com/analytics/devguides/reporting/core/v3/coreDevguide#request
 }
 
-getData();
+async function output() {
+    let report = await getData();
+    console.dir(report.columnHeader.metricHeader.metricHeaderEntries);
+    console.dir(report.data.rows[0].metrics);
+}
+
+output();
