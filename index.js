@@ -3,6 +3,9 @@
 const dotenv = require('dotenv').config();
 const { google } = require('googleapis');
 const key = require('./auth.json');
+const fs = require('fs');
+
+/* AUTH */
 
 // Sets API scope: read only (to view reports)
 const SCOPES = ['https://www.googleapis.com/auth/analytics.readonly'];
@@ -14,6 +17,23 @@ const auth = new google.auth.GoogleAuth({
     keyFile: SERVICE_ACCOUNT_FILE,
     scopes: SCOPES,
 });
+
+/* Preparing batchGets */
+
+//JSONs to pass into batchGet
+const raw = fs.readFileSync('top10Articles.json');
+const defaultChannelGroupingCDS = JSON.parse(raw);
+
+// Reads and parses array of json files to be reported on
+function parseJSONS(raw) {
+    var res = [];
+
+    for (const json in raw) {
+        res.push(JSON.parse(fs.readFileSync(json)));
+    }
+
+    return res;
+}
 
 // Requests data from Analytics API
 async function getData() {
@@ -27,67 +47,44 @@ async function getData() {
     });
 
     // GETs data
-    const res = await analytics.reports.batchGet({
-        requestBody: {
-            reportRequests: [
-                {
-                    // Found in Analytics>Settings>ADMIN>View_Settings>View_ID
-                    viewId: process.env.VIEW_ID,
-                    // What time-frames are we analyzing (up to 2)
-                    dateRanges: [
-                        {
-                            startDate: '7daysAgo',
-                            endDate: '1daysAgo',
-                        },
-                        {
-                            startDate: '14daysAgo',
-                            endDate: '8daysAgo',
-                        },
-                    ],
-                    // What metrics do we want
-                    metrics: [
-                        {
-                            expression: 'ga:pageviews',
-                        },
-                        {
-                            expression: 'ga:sessions',
-                        },
-                        {
-                            expression: 'ga:entrances',
-                        },
-                        {
-                            expression: 'ga:avgTimeOnPage',
-                        },
-                    ],
-                },
-            ],
-        },
-    });
+    const res = await analytics.reports.batchGet(defaultChannelGroupingCDS);
 
-    // Raw Output for testing
-    // console.dir(res);
-
-    // console.dir(res.data);
-    // console.dir(res.data.reports);
     return res.data.reports[0];
 
     // TODO throw exception for non 2xx status code
     //https://developers.google.com/analytics/devguides/reporting/core/v3/coreDevguide#request
 }
 
+// Cleans and outputs Data
 async function output() {
-    //Destructures batchGet report
-    let { columnHeader, data } = await getData();
+    // Destructures batchGet report
+    let {
+        columnHeader: {
+            dimensions,
+            metricHeader: { metricHeaderEntries },
+        },
+        data,
+    } = await getData();
 
-    //Puts metric headers into an array
-    const headersRaw = columnHeader.metricHeader.metricHeaderEntries;
+    // Puts metric headers into an array
     var headers = [];
-    for (var i = 0, header; (header = headersRaw[i]); i++) {
+    for (var i = 0, header; (header = metricHeaderEntries[i]); i++) {
         headers.push(header.name);
     }
 
-    console.dir(headers);
-    console.dir(data.rows[0].metrics);
+    // Puts result rows into an array
+    var rows = [];
+    for (var i = 0, row; (row = data.rows[i]); i++) {
+        rows.push(row);
+    }
+
+    console.log();
+    console.log('Dimensions: ' + dimensions);
+    console.log('Metrics: ' + headers);
+
+    for (i = 0; i < rows.length; i++) {
+        console.log(rows[i].dimensions, rows[i].metrics);
+    }
 }
 
 output();

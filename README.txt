@@ -1,5 +1,8 @@
 Ask isa
 -Why track pageviews from new users instead of sessions?
+-Should we tag our emails with the email tag, and track pageviews from emails?
+- Collect campaign detail from custom URLs: https://support.google.com/analytics/answer/1033863?hl=en
+
 
 
 TODO
@@ -8,8 +11,8 @@ TODO
 - Make method that takes input section
 - Make seperate CD overall template
 - Post Data to Google Docs
-    - Convert to HTML to DOCS
-    https://github.com/googleapis/google-api-nodejs-client/blob/master/samples/docs/create.js
+    https://developers.google.com/docs/api/how-tos/merge
+
 
 
 Dimensions and Metrics Explorer:

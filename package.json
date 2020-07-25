@@ -9,7 +9,8 @@
   "author": "Andrew Sirenko",
   "license": "ISC",
   "dependencies": {
-    "googleapis": "^55.0.0",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "fs": "0.0.1-security",
+    "googleapis": "^55.0.0"
   }
 }
