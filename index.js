@@ -20,21 +20,6 @@ const auth = new google.auth.GoogleAuth({
 
 /* Preparing batchGets */
 
-//JSONs to pass into batchGet
-const raw = fs.readFileSync('top10Articles.json');
-const defaultChannelGroupingCDS = JSON.parse(raw);
-
-// Reads and parses array of json files to be reported on
-function parseJSONS(raw) {
-    var res = [];
-
-    for (const json in raw) {
-        res.push(JSON.parse(fs.readFileSync(json)));
-    }
-
-    return res;
-}
-
 // Requests data from Analytics API
 async function getData() {
     // Authorization
@@ -47,7 +32,63 @@ async function getData() {
     });
 
     // GETs data
-    const res = await analytics.reports.batchGet(defaultChannelGroupingCDS);
+    const res = await analytics.reports.batchGet({
+        requestBody: {
+            reportRequests: [
+                {
+                    viewId: '7024503',
+
+                    dateRanges: [
+                        {
+                            startDate: '7daysAgo',
+                            endDate: '1daysAgo',
+                        },
+                    ],
+
+                    metrics: [
+                        {
+                            expression: 'ga:pageviews',
+                        },
+                        {
+                            expression: 'ga:sessions',
+                        },
+                        {
+                            expression: 'ga:newUsers',
+                        },
+                    ],
+                    orderBys: [
+                        {
+                            fieldName: 'ga:pageviews',
+                            sortOrder: 'DESCENDING',
+                        },
+                    ],
+                    dimensions: [{ name: 'ga:pagePath' }],
+                    dimensionFilterClauses: [
+                        {
+                            operator: 'AND',
+                            filters: [
+                                {
+                                    dimensionName: 'ga:pagePath',
+                                    not: true,
+                                    operator: 'IN_LIST',
+                                    expressions: [
+                                        '/',
+                                        '/news/',
+                                        '/opinion/',
+                                        '/eye/',
+                                        '/sports/',
+                                        '/spectrum/',
+                                    ],
+                                    caseSensitive: false,
+                                },
+                            ],
+                        },
+                    ],
+                    pageSize: 10,
+                },
+            ],
+        },
+    });
 
     return res.data.reports[0];
 
@@ -83,7 +124,7 @@ async function output() {
     console.log('Metrics: ' + headers);
 
     for (i = 0; i < rows.length; i++) {
-        console.log(rows[i].dimensions, rows[i].metrics);
+        console.log(rows[i].dimensions[0], rows[i].metrics[0].values);
     }
 }
 
