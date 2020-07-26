@@ -6,10 +6,9 @@ Ask isa
 
 
 TODO
-- Create batchget template using sports
+- Test out the eye section weirdness?
 - Set up array for each section
-- Make method that takes input section
-- Make seperate CD overall template
+- Create output fcn for each request
 - Post Data to Google Docs
     https://developers.google.com/docs/api/how-tos/merge
 
@@ -23,25 +22,6 @@ Query Explorer:
 Let's you quickly see results of a would be batchGet
 https://ga-dev-tools.appspot.com/query-explorer/
 
-ga:pagePath for pathing 
-https://ga-dev-tools.appspot.com/dimensions-metrics-explorer/#ga:pagepath
-
-Delta ordering for dates: 
-https://developers.google.com/analytics/devguides/reporting/core/v4/basics#delta_ordering
-
 Filters
 https://developers.google.com/analytics/devguides/reporting/core/v3/reference#filters
 
-"dimensionFilterClauses": [
-    {
-     "filters": [
-      {
-       "operator": "EXACT",
-       "dimensionName": "ga:pagePath",
-       "expressions": [
-        "/your-path"
-       ]
-      }
-     ]
-    }
-   ],

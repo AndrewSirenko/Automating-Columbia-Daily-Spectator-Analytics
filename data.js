@@ -1,6 +1,6 @@
 var specSections = {
     cds: {
-        name: 'CDS Overall',
+        name: 'cds',
         pageViews: String,
         percentUsersNY: String,
         pageViewsFromNewUsers: String,
@@ -10,6 +10,7 @@ var specSections = {
         organic: String,
         direct: String,
         social: String,
+        mostUsersCameFrom: String,
         facebook: String,
         twitter: String,
         linkedIn: String,
@@ -17,7 +18,7 @@ var specSections = {
     },
     otherSections: [
         (news = {
-            name: 'News',
+            name: 'news',
             pageViews: String,
             entrances: String,
             averageTimeOnPage: String,
@@ -27,7 +28,9 @@ var specSections = {
             social: String,
         }),
         (opinion = {}),
-        (ae = {}),
+        (ae = {
+            name: 'arts-and-entertainment',
+        }),
         (sports = {}),
         (spectrum = {}),
         (eye = {}),
