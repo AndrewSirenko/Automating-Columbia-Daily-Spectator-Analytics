@@ -72,6 +72,12 @@ const defaultChannelGrouping = {
                     },
                 ],
                 dimensions: [{ name: 'ga:channelGrouping' }],
+                orderBys: [
+                    {
+                        fieldName: 'ga:pageviews',
+                        sortOrder: 'DESCENDING',
+                    },
+                ],
                 dimensionFilterClauses: [
                     {
                         operator: 'AND',
@@ -105,12 +111,6 @@ const top10Articles = {
                 metrics: [
                     {
                         expression: 'ga:pageviews',
-                    },
-                    {
-                        expression: 'ga:sessions',
-                    },
-                    {
-                        expression: 'ga:newUsers',
                     },
                 ],
                 orderBys: [

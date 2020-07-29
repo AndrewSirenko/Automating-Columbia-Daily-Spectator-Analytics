@@ -41,11 +41,13 @@ async function generateWeeklyReport() {
     console.log('Acquiring and Cleaning Analytics Data...\n');
 
     // GETs data from Google Analytics API
-    const res = await analytics.reports.batchGet(requestBodies.defaultRequest);
+    const report = await (
+        await analytics.reports.batchGet(requestBodies.socialNetwork)
+    ).data.reports[0];
 
     var cds = {};
 
-    outputFunctions.defaultRequestOutput(res.data.reports[0], cds);
+    outputFunctions.socialNetworkOutput(report, cds);
 
     console.log(cds);
 

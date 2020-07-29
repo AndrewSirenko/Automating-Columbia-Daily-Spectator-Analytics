@@ -8,7 +8,7 @@
 
 const formatter = require('./formatter');
 
-//default
+//
 function defaultRequestOutput(report, section) {
     // De-structures batchGet report
     let {
@@ -62,6 +62,137 @@ function defaultRequestOutput(report, section) {
     //console.log(section);
 }
 
+//
+function defaultChannelGroupingOutput(report, section) {
+    // De-structures batchGet report
+    let {
+        columnHeader: {
+            dimensions,
+            metricHeader: { metricHeaderEntries },
+        },
+        data,
+    } = report;
+
+    // Puts metric headers into an array
+    var headers = [];
+    for (var i = 0, header; (header = metricHeaderEntries[i]); i++) {
+        headers.push('' + header.name);
+    }
+
+    // Puts result rows into an array
+    var rows = [];
+    for (var i = 0, row; (row = data.rows[i]); i++) {
+        rows.push(row);
+    }
+
+    console.log('Dimensions: ' + dimensions);
+    console.log('Metrics: ' + headers);
+    console.log();
+
+    // Puts string into section object
+    section['mostPageViewsCameFrom'] = rows[0].dimensions[0];
+
+    for (i = 0; i < rows.length; i++) {
+        // Dimension Label (Ex: Facebook)
+        let label = rows[i].dimensions[0];
+
+        let pageviews = Number(rows[i].metrics[0].values[0]);
+
+        section[label] = pageviews;
+    }
+}
+
+function top10Articles(report, section) {
+    // De-structures batchGet report
+    let {
+        columnHeader: {
+            dimensions,
+            metricHeader: { metricHeaderEntries },
+        },
+        data,
+    } = report;
+
+    // Puts metric headers into an array
+    var headers = [];
+    for (var i = 0, header; (header = metricHeaderEntries[i]); i++) {
+        headers.push('' + header.name);
+    }
+
+    // Puts result rows into an array
+    var rows = [];
+    for (var i = 0, row; (row = data.rows[i]); i++) {
+        rows.push(row);
+    }
+
+    console.log('Dimensions: ' + dimensions);
+    console.log('Metrics: ' + headers);
+    console.log();
+
+    // String that holds formatted list of top 10 articles
+    let top10ArticlesFormatted =
+        '\nPage Views: Article Link\n------------------------';
+
+    for (i = 0; i < rows.length; i++) {
+        // Dimension Label (Ex: Facebook)
+        let articleLink = rows[i].dimensions[0];
+
+        // pageviews formatted to fixed number of digits
+        let pageviews = Number(rows[i].metrics[0].values[0]);
+
+        top10ArticlesFormatted += '\n' + pageviews + ': ' + articleLink;
+    }
+
+    // Puts string into section object
+    section['top10Articles'] = top10ArticlesFormatted;
+}
+
+function percentUsersFromNYCOutput(report, section) {
+    defaultRequestOutput(report, section);
+}
+
+function socialNetworkOutput(report, section) {
+    // De-structures batchGet report
+    let {
+        columnHeader: {
+            dimensions,
+            metricHeader: { metricHeaderEntries },
+        },
+        data,
+    } = report;
+
+    // Puts metric headers into an array
+    var headers = [];
+    for (var i = 0, header; (header = metricHeaderEntries[i]); i++) {
+        headers.push('' + header.name);
+    }
+
+    // Puts result rows into an array
+    var rows = [];
+    for (var i = 0, row; (row = data.rows[i]); i++) {
+        rows.push(row);
+    }
+
+    console.log('Dimensions: ' + dimensions);
+    console.log('Metrics: ' + headers);
+    console.log();
+
+    // Puts string into section object
+    section['mostUsersCameFrom'] = rows[0].dimensions[0];
+
+    for (i = 0; i < rows.length; i++) {
+        // Dimension Label (Ex: Facebook)
+        let label = rows[i].dimensions[0];
+
+        let users = Number(rows[i].metrics[0].values[0]);
+
+        section[label] = users;
+    }
+}
+
 module.exports = {
     defaultRequestOutput,
+    top10Articles,
+    defaultChannelGroupingOutput,
+    percentUsersFromNYCOutput,
+    socialNetworkOutput,
 };
