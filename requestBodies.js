@@ -236,11 +236,11 @@ function addPagePathLevel1Filter(section, requestBody) {
     return dcg;
 }
 
-Test;
-console.log(
-    addPagePathLevel1Filter('news', defaultRequest).requestBody
-        .reportRequests[0].dimensionFilterClauses[0].filters[0]
-);
+// //test
+// console.log(
+//     addPagePathLevel1Filter('news', defaultRequest).requestBody
+//         .reportRequests[0].dimensionFilterClauses[0].filters[0]
+// );
 
 module.exports = {
     sectionsArr,

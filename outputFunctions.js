@@ -6,10 +6,10 @@
  *   {section} which is the JSON object to store processed data from report
  */
 
-const formatter = require('formatter');
+const formatter = require('./formatter');
 
 //default
-function defaultRequestOutput(report, section = {}) {
+function defaultRequestOutput(report, section) {
     // De-structures batchGet report
     let {
         columnHeader: {
@@ -35,8 +35,6 @@ function defaultRequestOutput(report, section = {}) {
     console.log('Metrics: ' + headers);
     console.log();
 
-    var section = {};
-
     for (i = 0; i < rows.length; i++) {
         // Values from current time frame (Ex: This week)
         let currValues = rows[i].metrics[0].values;
@@ -57,11 +55,11 @@ function defaultRequestOutput(report, section = {}) {
             section[header] = format;
 
             // Test output
-            console.log(headers[i] + format);
+            //console.log(headers[i] + format);
         }
     }
     // Test output
-    console.log(section);
+    //console.log(section);
 }
 
 module.exports = {

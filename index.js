@@ -6,6 +6,7 @@ const key = require('./auth.json');
 const fs = require('fs');
 const requestBodies = require('./requestBodies');
 const formatter = require('./formatter');
+const outputFunctions = require('./outputFunctions');
 
 /* AUTH */
 
@@ -39,78 +40,17 @@ async function generateWeeklyReport() {
     // GETs data
     console.log('Acquiring and Cleaning Analytics Data...\n');
 
+    // GETs data from Google Analytics API
     const res = await analytics.reports.batchGet(requestBodies.defaultRequest);
 
-    return res.data.reports[0];
+    var cds = {};
+
+    outputFunctions.defaultRequestOutput(res.data.reports[0], cds);
+
+    console.log(cds);
 
     // TODO throw exception for non 2xx status code
     //https://developers.google.com/analytics/devguides/reporting/core/v3/coreDevguide#request
 }
 
-// performs batchGet request on {requestBody} cleaning and outputting data as
-//   decided in {outputFunction}
-// {requestBody} found in requestBodies.js
-// {outputFunction} found in outputFunctions.js
-async function batchProcess(requestBody, outputFunction) {
-    const res = await analytics.reports.batchGet(requestBody);
-
-    cds = {};
-
-    outputFunction(res.data.reports[0], cds);
-    console.log(cds);
-}
-
-// Cleans and outputs Data
-async function output() {
-    // Destructures batchGet report
-    let {
-        columnHeader: {
-            dimensions,
-            metricHeader: { metricHeaderEntries },
-        },
-        data,
-    } = await generateWeeklyReport();
-
-    // Puts metric headers into an array
-    var headers = [];
-    for (var i = 0, header; (header = metricHeaderEntries[i]); i++) {
-        headers.push(header.name);
-    }
-
-    // Puts result rows into an array
-    var rows = [];
-    for (var i = 0, row; (row = data.rows[i]); i++) {
-        rows.push(row);
-    }
-
-    console.log('Dimensions: ' + dimensions);
-    console.log('Metrics: ' + headers);
-    console.log();
-
-    var cds = {};
-
-    for (i = 0; i < rows.length; i++) {
-        // Dimension Label (Ex: Facebook)
-        //let dimensionItem = rows[i].dimensions[0];
-
-        // Values from current time frame (Ex: This week)
-        let currValues = rows[i].metrics[0].values;
-
-        // Values from last time frame (Ex: last week)
-        let pastValues = rows[i].metrics[1].values;
-
-        for (i = 0; i < headers.length; i++) {
-            let header = headers[i];
-            let currVal = currValues[i];
-            let pastVal = pastValues[i];
-
-            let format = formatter.dataToText(currVal, pastVal);
-            //console.log(dimensionItem, currValues, pastValues);
-            cds[header] = format;
-            console.log(headers[i] + format);
-        }
-    }
-    console.log(cds);
-}
-
-output();
+generateWeeklyReport();

@@ -7,11 +7,19 @@ Ask isa
 
 TODO
 - Test out the eye section weirdness?
+- Clean Index (Separate Auth Fcn, put batchGet and output in dif fcns that let us loop through)
 - Set up array for each section
 - Create output fcn for each request
+    >?: https://developers.google.com/analytics/devguides/reporting/core/v3/coreDevguide#python_4
 - Post Data to Google Docs
     https://developers.google.com/docs/api/how-tos/merge
+- Separate Authorization from index.js
 
+Weekly Report Example:
+https://docs.google.com/document/d/1I0ASaTS0jdTMddNBmgoyX8SqamFwZtkoKulc2i5anzg/edit#
+
+Analytics Website:
+https://analytics.google.com/analytics/web/?authuser=2#/report/visitors-geo/a3441642w6784085p7024503/_u.date00=20200716&_u.date01=20200722&_u.date10=20200709&_u.date11=20200715&tabControl.tabId=geo&geo-segmentExplorer.segmentId=analytics.city&_r.drilldown=analytics.city:1023191
 
 
 Dimensions and Metrics Explorer:
