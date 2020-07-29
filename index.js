@@ -51,7 +51,14 @@ async function generateWeeklyReport() {
 //   decided in {outputFunction}
 // {requestBody} found in requestBodies.js
 // {outputFunction} found in outputFunctions.js
-async function batchProcess(requestBody, outputFunction) {}
+async function batchProcess(requestBody, outputFunction) {
+    const res = await analytics.reports.batchGet(requestBody);
+
+    cds = {};
+
+    outputFunction(res.data.reports[0], cds);
+    console.log(cds);
+}
 
 // Cleans and outputs Data
 async function output() {
