@@ -4,6 +4,8 @@ const dotenv = require('dotenv').config();
 const { google } = require('googleapis');
 const key = require('./auth.json');
 const fs = require('fs');
+const requestBodies = require('./requestBodies');
+const formatter = require('./formatter');
 
 /* AUTH */
 
@@ -21,8 +23,11 @@ const auth = new google.auth.GoogleAuth({
 /* Preparing batchGets */
 
 // Requests data from Analytics API
-async function getData() {
+async function generateWeeklyReport() {
+    console.log('\nGenerating Weekly Report...\n');
+
     // Authorization
+    console.log('Authorization: Generating OAuth 2.0 Token...\n');
     const client = await auth.getClient();
 
     // Obtains new analytics client, making sure we are authorized
@@ -32,69 +37,21 @@ async function getData() {
     });
 
     // GETs data
-    const res = await analytics.reports.batchGet({
-        requestBody: {
-            reportRequests: [
-                {
-                    viewId: '7024503',
+    console.log('Acquiring and Cleaning Analytics Data...\n');
 
-                    dateRanges: [
-                        {
-                            startDate: '7daysAgo',
-                            endDate: '1daysAgo',
-                        },
-                    ],
-
-                    metrics: [
-                        {
-                            expression: 'ga:pageviews',
-                        },
-                        {
-                            expression: 'ga:sessions',
-                        },
-                        {
-                            expression: 'ga:newUsers',
-                        },
-                    ],
-                    orderBys: [
-                        {
-                            fieldName: 'ga:pageviews',
-                            sortOrder: 'DESCENDING',
-                        },
-                    ],
-                    dimensions: [{ name: 'ga:pagePath' }],
-                    dimensionFilterClauses: [
-                        {
-                            operator: 'AND',
-                            filters: [
-                                {
-                                    dimensionName: 'ga:pagePath',
-                                    not: true,
-                                    operator: 'IN_LIST',
-                                    expressions: [
-                                        '/',
-                                        '/news/',
-                                        '/opinion/',
-                                        '/eye/',
-                                        '/sports/',
-                                        '/spectrum/',
-                                    ],
-                                    caseSensitive: false,
-                                },
-                            ],
-                        },
-                    ],
-                    pageSize: 10,
-                },
-            ],
-        },
-    });
+    const res = await analytics.reports.batchGet(requestBodies.defaultRequest);
 
     return res.data.reports[0];
 
     // TODO throw exception for non 2xx status code
     //https://developers.google.com/analytics/devguides/reporting/core/v3/coreDevguide#request
 }
+
+// performs batchGet request on {requestBody} cleaning and outputting data as
+//   decided in {outputFunction}
+// {requestBody} found in requestBodies.js
+// {outputFunction} found in outputFunctions.js
+async function batchProcess(requestBody, outputFunction) {}
 
 // Cleans and outputs Data
 async function output() {
@@ -105,7 +62,7 @@ async function output() {
             metricHeader: { metricHeaderEntries },
         },
         data,
-    } = await getData();
+    } = await generateWeeklyReport();
 
     // Puts metric headers into an array
     var headers = [];
@@ -119,13 +76,34 @@ async function output() {
         rows.push(row);
     }
 
-    console.log();
     console.log('Dimensions: ' + dimensions);
     console.log('Metrics: ' + headers);
+    console.log();
+
+    var cds = {};
 
     for (i = 0; i < rows.length; i++) {
-        console.log(rows[i].dimensions[0], rows[i].metrics[0].values);
+        // Dimension Label (Ex: Facebook)
+        //let dimensionItem = rows[i].dimensions[0];
+
+        // Values from current time frame (Ex: This week)
+        let currValues = rows[i].metrics[0].values;
+
+        // Values from last time frame (Ex: last week)
+        let pastValues = rows[i].metrics[1].values;
+
+        for (i = 0; i < headers.length; i++) {
+            let header = headers[i];
+            let currVal = currValues[i];
+            let pastVal = pastValues[i];
+
+            let format = formatter.dataToText(currVal, pastVal);
+            //console.log(dimensionItem, currValues, pastValues);
+            cds[header] = format;
+            console.log(headers[i] + format);
+        }
     }
+    console.log(cds);
 }
 
 output();
