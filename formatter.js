@@ -30,3 +30,5 @@ function dataToText(currData, pastData) {
 // Test
 // console.dir(dataToText(2, 3));
 // console.dir(dataToText(3, 2));
+
+module.exports = { dataToText };

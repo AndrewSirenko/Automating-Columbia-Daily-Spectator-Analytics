@@ -42,14 +42,12 @@ const defaultRequest = {
                 ...viewAndDates,
 
                 metrics: [
-                    {
-                        expression: 'ga:pageviews',
-                        expression: 'ga:newUsers',
-                        expression: 'ga:percentNewSessions',
-                        expression: 'ga:sessions',
-                        expression: 'ga:entrances',
-                        expression: 'ga:avgTimeOnPage',
-                    },
+                    { expression: 'ga:pageviews' },
+                    { expression: 'ga:newUsers' },
+                    { expression: 'ga:sessions' },
+                    { expression: 'ga:percentNewSessions' },
+                    { expression: 'ga:entrances' },
+                    { expression: 'ga:avgTimeOnPage' },
                 ],
                 dimensionFilterClauses: [
                     {
@@ -102,14 +100,7 @@ const top10Articles = {
     requestBody: {
         reportRequests: [
             {
-                viewId: '7024503',
-
-                dateRanges: [
-                    {
-                        startDate: '7daysAgo',
-                        endDate: '1daysAgo',
-                    },
-                ],
+                ...viewAndDates,
 
                 metrics: [
                     {
@@ -245,8 +236,18 @@ function addPagePathLevel1Filter(section, requestBody) {
     return dcg;
 }
 
-// Test
+Test;
 console.log(
     addPagePathLevel1Filter('news', defaultRequest).requestBody
         .reportRequests[0].dimensionFilterClauses[0].filters[0]
 );
+
+module.exports = {
+    sectionsArr,
+    defaultRequest,
+    defaultChannelGrouping,
+    top10Articles,
+    percentUsersFromNYC,
+    socialNetwork,
+    addPagePathLevel1Filter,
+};
