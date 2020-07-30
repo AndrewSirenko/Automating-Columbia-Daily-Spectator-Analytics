@@ -3,21 +3,28 @@ const { google } = require('googleapis');
 const key = require('./auth.json');
 const fs = require('fs');
 
-// Sets API scope: read only (to view reports)
-const SCOPES = ['https://www.googleapis.com/auth/analytics.readonly'];
+// Sets Analytics API scope: read only (to view reports)
+const ANALYTICS_SCOPES = ['https://www.googleapis.com/auth/analytics.readonly'];
+//Sets Docs API scope:
+const DOCS_SCOPES = ['https://www.googleapis.com/auth/drive'];
 // Path to service account json
 const SERVICE_ACCOUNT_FILE = '/Users/Andrew/Dev/spec/auth.json';
 
 // Create a new JWT client using the key file downloaded from the Google Developer Console
-const authJWT = new google.auth.GoogleAuth({
+const analyticsAuthJWT = new google.auth.GoogleAuth({
     keyFile: SERVICE_ACCOUNT_FILE,
-    scopes: SCOPES,
+    scopes: ANALYTICS_SCOPES,
 });
 
-async function authorize() {
+const docsAuthJWT = new google.auth.GoogleAuth({
+    keyFile: SERVICE_ACCOUNT_FILE,
+    scopes: DOCS_SCOPES,
+});
+
+async function authorizeAnalytics() {
     // Authorization
     console.log('Authorization: Generating OAuth 2.0 Token...\n');
-    const client = await authJWT.getClient();
+    const client = await analyticsAuthJWT.getClient();
 
     // Obtains new analytics client, making sure we are authorized
     const analytics = google.analyticsreporting({
@@ -28,6 +35,34 @@ async function authorize() {
     return analytics;
 }
 
+async function authorizeDocs() {
+    const client = await docsAuthJWT.getClient();
+
+    // Obtains new analytics client, making sure we are authorized
+    const docs = google.docs({
+        version: 'v1',
+        auth: client,
+    });
+
+    {
+        docs.documents.get(
+            {
+                documentId: '195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE',
+            },
+            (err, res) => {
+                if (err)
+                    return console.log('The API returned an error: ' + err);
+                console.log(`The title of the document is: ${res.data.title}`);
+            }
+        );
+    }
+
+    return docs;
+}
+
+authorizeDocs();
+
 module.exports = {
-    authorize,
+    authorize: authorizeAnalytics,
+    authorizeDocs,
 };
