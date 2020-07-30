@@ -82,7 +82,8 @@ function defaultChannelGroupingOutput(report, section) {
 
     // Puts result rows into an array
     var rows = [];
-    for (var i = 0, row; (row = data.rows[i]); i++) {
+    for (var i = 0, row; i < data.rows.length; i++) {
+        row = data.rows[i];
         rows.push(row);
     }
 
