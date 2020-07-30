@@ -35,15 +35,15 @@ async function generateWeeklyReport() {
         'the-eye': {},
     };
 
-    // console.log('Processing CDS Overall:');
-    // for (let i = 0; i < requestBodiesCDS.length; i++) {
-    //     let request = requestBodies.requestBodiesCDS[i];
+    console.log('Processing CDS Overall:');
+    for (let i = 0; i < requestBodiesCDS.length; i++) {
+        let request = requestBodies.requestBodiesCDS[i];
 
-    //     let res = await analytics.reports.batchGet(request);
-    //     let report = res.data.reports[0];
+        let res = await analytics.reports.batchGet(request);
+        let report = res.data.reports[0];
 
-    //     request.outputFunction(report, data.cds);
-    // }
+        request.outputFunction(report, data.cds);
+    }
 
     for (let i = 0; i < sectionsArr.length; i++) {
         let currSection = sectionsArr[i];
