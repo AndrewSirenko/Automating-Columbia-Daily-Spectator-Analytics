@@ -8,14 +8,7 @@ const requestBodies = require('./requestBodies');
 const formatter = require('./formatter');
 const outputFunctions = require('./outputFunctions');
 const auth = require('./auth.js');
-
-/* Preparing batchGets */
-const batchGets = [
-    {
-        request: requestBodies.defaultRequest,
-        output: outputFunctions.defaultRequestOutput,
-    },
-];
+const { requestBodiesCDS } = require('./requestBodies');
 
 // Requests data from Analytics API
 async function generateWeeklyReport() {
@@ -27,13 +20,17 @@ async function generateWeeklyReport() {
     // GETs data
     console.log('Acquiring and Cleaning Analytics Data...\n');
 
-    // GETs data from Google Analytics API
-    const res = await analytics.reports.batchGet(batchGets[0].request);
-    const report = res.data.reports[0];
-
     var cds = {};
 
-    requestBodies.defaultRequest.outputFunction(report, cds);
+    // GETs data from Google Analytics API
+    for (let i = 0; i < requestBodiesCDS.length; i++) {
+        let request = requestBodiesCDS[i];
+
+        let res = await analytics.reports.batchGet(request);
+        let report = res.data.reports[0];
+
+        request.outputFunction(report, cds);
+    }
 
     console.log(cds);
 

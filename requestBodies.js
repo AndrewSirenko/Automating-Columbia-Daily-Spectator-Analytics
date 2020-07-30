@@ -243,11 +243,14 @@ function addPagePathLevel1Filter(section, requestBody) {
     return dcg;
 }
 
-// //test
-// console.log(
-//     addPagePathLevel1Filter('news', defaultRequest).requestBody
-//         .reportRequests[0].dimensionFilterClauses[0].filters[0]
-// );
+// Arr of requestBodies for CDS
+const requestBodiesCDS = [
+    defaultRequest,
+    percentUsersFromNYC,
+    socialNetwork,
+    defaultChannelGrouping,
+    top10Articles,
+];
 
 module.exports = {
     sectionsArr,
@@ -256,5 +259,6 @@ module.exports = {
     top10Articles,
     percentUsersFromNYC,
     socialNetwork,
+    requestBodiesCDS,
     addPagePathLevel1Filter,
 };

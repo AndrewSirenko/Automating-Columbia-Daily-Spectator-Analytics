@@ -7,6 +7,7 @@
  */
 
 const formatter = require('./formatter');
+const { dataToText } = require('./formatter');
 
 //
 function defaultRequestOutput(report, section) {
@@ -49,7 +50,7 @@ function defaultRequestOutput(report, section) {
             let pastVal = pastValues[i];
 
             // Turns raw data into formatted string to be used in weekly report
-            let format = formatter.dataToText(currVal, pastVal);
+            let format = dataToText(currVal, pastVal);
 
             // Creates new variable in section object, to be read by DOCS API
             section[header] = format;
@@ -96,7 +97,11 @@ function defaultChannelGroupingOutput(report, section) {
         // Dimension Label (Ex: Facebook)
         let label = rows[i].dimensions[0];
 
-        let pageviews = Number(rows[i].metrics[0].values[0]);
+        let currVal = rows[i].metrics[0].values[0];
+        let prevVal = rows[i].metrics[1].values[0];
+
+        // pageviews formatted to fixed number of digits
+        let pageviews = dataToText(currVal, prevVal);
 
         section[label] = pageviews;
     }
@@ -183,7 +188,11 @@ function socialNetworkOutput(report, section) {
         // Dimension Label (Ex: Facebook)
         let label = rows[i].dimensions[0];
 
-        let users = Number(rows[i].metrics[0].values[0]);
+        let currVal = rows[i].metrics[0].values[0];
+        let prevVal = rows[i].metrics[1].values[0];
+
+        // pageviews formatted to fixed number of digits
+        let users = dataToText(currVal, prevVal);
 
         section[label] = users;
     }
