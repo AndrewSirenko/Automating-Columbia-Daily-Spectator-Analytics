@@ -102,7 +102,7 @@ function defaultChannelGroupingOutput(report, section) {
     }
 }
 
-function top10Articles(report, section) {
+function top10ArticlesOutput(report, section) {
     // De-structures batchGet report
     let {
         columnHeader: {
@@ -191,7 +191,7 @@ function socialNetworkOutput(report, section) {
 
 module.exports = {
     defaultRequestOutput,
-    top10Articles,
+    top10ArticlesOutput,
     defaultChannelGroupingOutput,
     percentUsersFromNYCOutput,
     socialNetworkOutput,

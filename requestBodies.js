@@ -102,6 +102,7 @@ const defaultChannelGrouping = {
             },
         ],
     },
+    outputFunction: outputFunctions.defaultChannelGroupingOutput,
 };
 
 // Request Body for top 10 articles
@@ -148,6 +149,7 @@ const top10Articles = {
             },
         ],
     },
+    outputFunction: outputFunctions.top10ArticlesOutput,
 };
 
 // CDS ONLY: Request Body for % users from NYC
@@ -179,6 +181,7 @@ const percentUsersFromNYC = {
             },
         ],
     },
+    outputFunction: outputFunctions.percentUsersFromNYCOutput,
 };
 
 // CDS ONLY: sessions from social network
@@ -216,6 +219,7 @@ const socialNetwork = {
             },
         ],
     },
+    outputFunction: outputFunctions.socialNetworkOutput,
 };
 
 // returns copy of request body with an added pagePathLevel1 Filter
