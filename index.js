@@ -10,6 +10,12 @@ const outputFunctions = require('./outputFunctions');
 const auth = require('./auth.js');
 
 /* Preparing batchGets */
+const batchGets = [
+    {
+        request: requestBodies.defaultRequest,
+        output: outputFunctions.defaultRequestOutput,
+    },
+];
 
 // Requests data from Analytics API
 async function generateWeeklyReport() {
@@ -22,13 +28,12 @@ async function generateWeeklyReport() {
     console.log('Acquiring and Cleaning Analytics Data...\n');
 
     // GETs data from Google Analytics API
-    const report = await (
-        await analytics.reports.batchGet(requestBodies.socialNetwork)
-    ).data.reports[0];
+    const res = await analytics.reports.batchGet(batchGets[0].request);
+    const report = res.data.reports[0];
 
     var cds = {};
 
-    outputFunctions.socialNetworkOutput(report, cds);
+    batchGets[0].output(report, cds);
 
     console.log(cds);
 
