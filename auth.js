@@ -47,7 +47,7 @@ async function authorizeDocs() {
     {
         docs.documents.get(
             {
-                documentId: '195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE',
+                documentId: '13z0nQfjAa-DzD4Rq1WDOxoOTZ4GXXjB2oYWWQsPgPvY',
             },
             (err, res) => {
                 if (err)
