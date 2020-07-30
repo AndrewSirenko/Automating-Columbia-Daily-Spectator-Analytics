@@ -7,15 +7,17 @@
  */
 
 const outputFunctions = require('./outputFunctions');
+// For deep cloning... Because I couldn't find a native solution
+const clonedeep = require('lodash.clonedeep');
 
 // Sections of Spec (not Overall CDS)
 const sectionsArr = [
-    'news/',
-    'opinion/',
-    'arts-and-entertainment/',
-    'sports/',
-    'spectrum/',
-    'the-eye/',
+    'news',
+    'opinion',
+    'arts-and-entertainment',
+    'sports',
+    'spectrum',
+    'the-eye',
 ];
 
 // Contains the viewId and dateRanges
@@ -225,14 +227,14 @@ const socialNetwork = {
 // returns copy of request body with an added pagePathLevel1 Filter
 // Inputs: String of form '/section/', requestBody Object reference
 function addPagePathLevel1Filter(section, requestBody) {
-    // Copies the requestBody Object
-    let dcg = { ...requestBody };
+    // Deep clones the requestBody Object
+    let dcg = clonedeep({ ...requestBody });
 
     // Creates new filter specifying pagePath
     let pathFilter = {
         dimensionName: 'ga:pagePathLevel1',
         operator: 'EXACT',
-        expressions: ['/' + section],
+        expressions: ['/' + section + '/'],
     };
 
     // Adds new filter to dcg
@@ -252,14 +254,20 @@ const requestBodiesCDS = [
     top10Articles,
 ];
 
+// Creates arr of requestBodies for given section
 function requestBodiesSection(section) {
     let sectionRequests = [];
 
-    sectionRequests.push(addPagePathLevel1Filter(section, defaultRequest));
-    sectionRequests.push(
-        addPagePathLevel1Filter(section, defaultChannelGrouping)
-    );
-    sectionRequests.push(addPagePathLevel1Filter(section, top10Articles));
+    // Copy request body object so we can pass new reference
+    // Aka not change the old object accident
+    let copyDR = defaultRequest;
+    let copyDCG = defaultChannelGrouping;
+    let copyTop10 = top10Articles;
+
+    // Adds pagePath filter to default request body
+    sectionRequests.push(addPagePathLevel1Filter(section, copyDR));
+    sectionRequests.push(addPagePathLevel1Filter(section, copyDCG));
+    sectionRequests.push(addPagePathLevel1Filter(section, copyTop10));
 
     return sectionRequests;
 }
