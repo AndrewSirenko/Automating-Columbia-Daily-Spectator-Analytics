@@ -10,12 +10,12 @@ const outputFunctions = require('./outputFunctions');
 
 // Sections of Spec (not Overall CDS)
 const sectionsArr = [
-    'news',
-    'opinion',
-    'arts-and-entertainment',
-    'sports',
-    'spectrum',
-    'the-eye',
+    'news/',
+    'opinion/',
+    'arts-and-entertainment/',
+    'sports/',
+    'spectrum/',
+    'the-eye/',
 ];
 
 // Contains the viewId and dateRanges
@@ -225,7 +225,7 @@ const socialNetwork = {
 // returns copy of request body with an added pagePathLevel1 Filter
 // Inputs: String of form '/section/', requestBody Object reference
 function addPagePathLevel1Filter(section, requestBody) {
-    // Copies the defaultChannelGrouping Object
+    // Copies the requestBody Object
     let dcg = { ...requestBody };
 
     // Creates new filter specifying pagePath
@@ -252,13 +252,20 @@ const requestBodiesCDS = [
     top10Articles,
 ];
 
+function requestBodiesSection(section) {
+    let sectionRequests = [];
+
+    sectionRequests.push(addPagePathLevel1Filter(section, defaultRequest));
+    sectionRequests.push(
+        addPagePathLevel1Filter(section, defaultChannelGrouping)
+    );
+    sectionRequests.push(addPagePathLevel1Filter(section, top10Articles));
+
+    return sectionRequests;
+}
+
 module.exports = {
     sectionsArr,
-    defaultRequest,
-    defaultChannelGrouping,
-    top10Articles,
-    percentUsersFromNYC,
-    socialNetwork,
     requestBodiesCDS,
-    addPagePathLevel1Filter,
+    requestBodiesSection,
 };

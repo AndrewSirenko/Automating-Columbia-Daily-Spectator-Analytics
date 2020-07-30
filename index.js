@@ -8,7 +8,7 @@ const requestBodies = require('./requestBodies');
 const formatter = require('./formatter');
 const outputFunctions = require('./outputFunctions');
 const auth = require('./auth.js');
-const { requestBodiesCDS } = require('./requestBodies');
+const { requestBodiesCDS, requestBodiesSection } = require('./requestBodies');
 
 // Requests data from Analytics API
 async function generateWeeklyReport() {
@@ -22,9 +22,11 @@ async function generateWeeklyReport() {
 
     var cds = {};
 
+    const sectionBody = requestBodies.requestBodiesSection('news/');
+
     // GETs data from Google Analytics API
-    for (let i = 0; i < requestBodiesCDS.length; i++) {
-        let request = requestBodiesCDS[i];
+    for (let i = 0; i < sectionBody.length; i++) {
+        let request = sectionBody[i];
 
         let res = await analytics.reports.batchGet(request);
         let report = res.data.reports[0];
