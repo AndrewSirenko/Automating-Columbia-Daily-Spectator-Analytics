@@ -1,4 +1,5 @@
 const auth = require('./auth.js');
+const { docs } = require('googleapis/build/src/apis/docs');
 
 // FolderId of folder which stores weekly reports
 const folderId = '1z8V9bFSBL94TlG-qY6yb_DUHqbwycSwK';
@@ -36,7 +37,47 @@ async function copyFile(originFileId, copyTitle) {
         },
     });
 
-    console.log(request.data);
+    return request.data.id;
+}
+//  Copies template document and merges data into newly-minted copy then
+//  returns its file ID.
+
+// TODO
+async function mergeTemplate(templateId, source, service) {
+    const docs = await auth.authorizeDocs();
+
+    // copy template and set context data struct for merging template values
+    let copyId = await copyFile(templateId, 'testName');
+
+    //context = merge.iteritems() if hasattr({}, 'iteritems') else merge.items()
+
+    // "search & replace" API requests for merge substitutions
+    // Reference: https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceAllTextRequest
+    let requests = [
+        {
+            replaceAllText: {
+                containsText: {
+                    //text: '{{%s}}' % key.upper(),
+                    text: '{{cds.ga:pageviews}}',
+                    matchCase: false,
+                },
+                //replaceText: value,
+                replaceText: 'TESTING',
+            },
+        },
+    ]; // TODO for key, value in context]
+
+    // Send requests to Docs API to do actual merge
+    // Reference: https://developers.google.com/docs/api/reference/rest/v1/documents/batchUpdate
+    let res = await docs.documents.batchUpdate({
+        documentId: copyId,
+        resource: { requests },
+    });
+
+    console.log(res.data.replies);
+
+    return copyId;
 }
 
-copyFile('13z0nQfjAa-DzD4Rq1WDOxoOTZ4GXXjB2oYWWQsPgPvY', 'test3');
+const tempId = '13z0nQfjAa-DzD4Rq1WDOxoOTZ4GXXjB2oYWWQsPgPvY';
+mergeTemplate(tempId);
