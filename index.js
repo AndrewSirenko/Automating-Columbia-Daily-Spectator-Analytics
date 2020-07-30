@@ -33,7 +33,7 @@ async function generateWeeklyReport() {
 
     var cds = {};
 
-    batchGets[0].output(report, cds);
+    requestBodies.defaultRequest.outputFunction(report, cds);
 
     console.log(cds);
 

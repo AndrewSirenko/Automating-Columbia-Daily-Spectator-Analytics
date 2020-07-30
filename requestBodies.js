@@ -6,6 +6,8 @@
  * Pagepath Filter Adder (for automating non CDS sections)
  */
 
+const outputFunctions = require('./outputFunctions');
+
 // Sections of Spec (not Overall CDS)
 const sectionsArr = [
     'news',
@@ -57,6 +59,7 @@ const defaultRequest = {
             },
         ],
     },
+    outputFunction: outputFunctions.defaultRequestOutput,
 };
 
 // requestBody for CDS: default channel grouping
