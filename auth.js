@@ -44,25 +44,23 @@ async function authorizeDocs() {
         auth: client,
     });
 
-    {
-        docs.documents.get(
-            {
-                documentId: '13z0nQfjAa-DzD4Rq1WDOxoOTZ4GXXjB2oYWWQsPgPvY',
-            },
-            (err, res) => {
-                if (err)
-                    return console.log('The API returned an error: ' + err);
-                console.log(`The title of the document is: ${res.data.title}`);
-            }
-        );
-    }
-
     return docs;
 }
 
-authorizeDocs();
+async function authorizeDrive() {
+    const client = await docsAuthJWT.getClient();
+
+    // Obtains new analytics client, making sure we are authorized
+    const docs = google.drive({
+        version: 'v3',
+        auth: client,
+    });
+
+    return drive;
+}
 
 module.exports = {
     authorize: authorizeAnalytics,
     authorizeDocs,
+    authorizeDrive,
 };
