@@ -7,13 +7,14 @@ const fs = require('fs');
 const ANALYTICS_SCOPES = ['https://www.googleapis.com/auth/analytics.readonly'];
 //Sets Docs API scope:
 const DOCS_SCOPES = ['https://www.googleapis.com/auth/drive'];
+const DRIVE_SCOPES = ['https://www.googleapis.com/auth/drive'];
 // Path to service account json
 const SERVICE_ACCOUNT_FILE = '/Users/Andrew/Dev/spec/auth.json';
 
 // Create a new JWT client using the key file downloaded from the Google Developer Console
-const analyticsAuthJWT = new google.auth.GoogleAuth({
+const authJWT = new google.auth.GoogleAuth({
     keyFile: SERVICE_ACCOUNT_FILE,
-    scopes: ANALYTICS_SCOPES,
+    scopes: [ANALYTICS_SCOPES, DOCS_SCOPES, DRIVE_SCOPES],
 });
 
 const docsAuthJWT = new google.auth.GoogleAuth({
@@ -24,7 +25,7 @@ const docsAuthJWT = new google.auth.GoogleAuth({
 async function authorizeAnalytics() {
     // Authorization
     console.log('Authorization: Generating OAuth 2.0 Token...\n');
-    const client = await analyticsAuthJWT.getClient();
+    const client = await authJWT.getClient();
 
     // Obtains new analytics client, making sure we are authorized
     const analytics = google.analyticsreporting({
@@ -36,7 +37,7 @@ async function authorizeAnalytics() {
 }
 
 async function authorizeDocs() {
-    const client = await docsAuthJWT.getClient();
+    const client = await authJWT.getClient();
 
     // Obtains new analytics client, making sure we are authorized
     const docs = google.docs({
@@ -48,10 +49,10 @@ async function authorizeDocs() {
 }
 
 async function authorizeDrive() {
-    const client = await docsAuthJWT.getClient();
+    const client = await authJWT.getClient();
 
     // Obtains new analytics client, making sure we are authorized
-    const docs = google.drive({
+    const drive = google.drive({
         version: 'v3',
         auth: client,
     });
