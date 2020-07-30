@@ -6,8 +6,35 @@
  *   {section} which is the JSON object to store processed data from report
  */
 
-const formatter = require('./formatter');
-const { dataToText } = require('./formatter');
+// Takes pair of resulting metrics from batchGet
+// (ex: current week vs past week)
+// and formats it into CDS report and finds %change
+function dataToText(currData, pastData) {
+    let percentChange = Math.fround(
+        ((currData - pastData) / pastData) * 100
+    ).toFixed(2);
+
+    if (percentChange > 0)
+        return (
+            ' up ' +
+            percentChange +
+            '% (' +
+            currData +
+            ' vs ' +
+            pastData +
+            ') ⬆'
+        );
+    else
+        return (
+            ' down ' +
+            percentChange +
+            '% (' +
+            currData +
+            ' vs ' +
+            pastData +
+            ') ⬇'
+        );
+}
 
 //
 function defaultRequestOutput(report, section) {
