@@ -27,3 +27,11 @@ https://ga-dev-tools.appspot.com/query-explorer/
 Filters
 https://developers.google.com/analytics/devguides/reporting/core/v3/reference#filters
 
+Analytics Reporting API Docs:
+https://developers.google.com/analytics/devguides/reporting/core/v4
+
+Docs API Docs:
+https://developers.google.com/docs/api
+
+Drive API Docs:
+https://developers.google.com/drive
