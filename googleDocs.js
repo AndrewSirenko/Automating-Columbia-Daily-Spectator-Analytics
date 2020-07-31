@@ -6,9 +6,24 @@ const FOLDER_ID = '1z8V9bFSBL94TlG-qY6yb_DUHqbwycSwK';
 // Doc ID of template document
 const TEMPLATE_DOC_ID = '13z0nQfjAa-DzD4Rq1WDOxoOTZ4GXXjB2oYWWQsPgPvY';
 
-async function generateWeeklyReportDoc() {
-    //TODO
-}
+async function generateWeeklyReportDoc(filename, data) {
+    console.log('\nGenerating document...\n');
+
+    // copy template and set context data struct for merging template values
+    let copyId = await copyFile(TEMPLATE_DOC_ID, filename);
+
+    // Add Date to header
+    merge(copyId, { DATE: filename.substring(0, 15) });
+
+    // Turns data into array of [section, corresponding dataObject]
+    dataArray = Object.entries(data);
+
+    // For each section, mergeTemplate all of its strings
+    dataArray.forEach(([sectionName, value]) => {
+        // Must include . after section name for template to work
+        merge(copyId, value, '' + sectionName + '.');
+    });
+} //TODO throw exceptions if failed
 
 // Copies letter template document using Drive API then
 //   adds copy to Weekly Reports folder: https://drive.google.com/drive/folders/1z8V9bFSBL94TlG-qY6yb_DUHqbwycSwK?usp=sharing
@@ -30,11 +45,8 @@ async function copyFile(originFileId, copyTitle) {
 //  Copies template document and merges JSON dataObject into newly-minted copy then
 //  returns its file ID.
 //  dataObject must be object of the form { textToBeReplaced : replacementText }
-async function mergeTemplate(templateId, dataObject, fileName) {
+async function merge(docId, dataObject, sectionName = '') {
     const docs = await auth.authorizeDocs();
-
-    // copy template and set context data struct for merging template values
-    let copyId = await copyFile(templateId, fileName);
 
     // De-structures and prepares dataObject for loop
     const dataObjectArray = Object.entries(dataObject);
@@ -44,12 +56,11 @@ async function mergeTemplate(templateId, dataObject, fileName) {
 
     // Loop assigning replaceAllText request to each key-value pair
     dataObjectArray.forEach(([key, value]) => {
-        console.log(key);
         //  Reference: https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceAllTextRequest
         requests.push({
             replaceAllText: {
                 containsText: {
-                    text: `{{cds.${key}}}`,
+                    text: `{{${sectionName}${key}}}`,
                     matchCase: false,
                 },
 
@@ -61,17 +72,17 @@ async function mergeTemplate(templateId, dataObject, fileName) {
     // Send requests to Docs API to do actual merge
     // Reference: https://developers.google.com/docs/api/reference/rest/v1/documents/batchUpdate
     let res = await docs.documents.batchUpdate({
-        documentId: copyId,
+        documentId: docId,
         resource: { requests },
     });
 
     console.log(res.data.replies);
 
-    return copyId;
+    return docId;
 }
 
 module.exports = {
-    mergeTemplate,
+    mergeTemplate: merge,
     generateWeeklyReportDoc,
     copyFile,
 };

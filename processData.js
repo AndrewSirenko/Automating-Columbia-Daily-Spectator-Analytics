@@ -72,7 +72,6 @@ async function generateWeeklyReportData() {
         }
     }
 
-    console.log(data);
     return data;
 
     // TODO throw exception for non 2xx status code
@@ -86,8 +85,6 @@ function generateFilename() {
     let lastWeek = new Date();
     lastWeek.setDate(today.getDate() - 7);
 
-    console.log(today);
-    console.log(lastWeek);
     let todayString = today.toLocaleDateString('default', {
         month: 'short',
         day: '2-digit',

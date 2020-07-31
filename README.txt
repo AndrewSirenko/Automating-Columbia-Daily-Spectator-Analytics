@@ -8,6 +8,8 @@ Ask isa
 TODO
 - Post Data to Google Docs
     https://developers.google.com/docs/api/how-tos/merge
+- Fix eye weirdness
+- Add Progress Bar: https://www.npmjs.com/package/cli-progress
 
 Weekly Report Example:
 https://docs.google.com/document/d/1I0ASaTS0jdTMddNBmgoyX8SqamFwZtkoKulc2i5anzg/edit#
