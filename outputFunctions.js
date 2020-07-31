@@ -10,8 +10,12 @@
 // (ex: current week vs past week)
 // and formats it into CDS report and finds %change
 function dataToText(currData, pastData) {
-    let percentChange = Math.fround(
-        ((currData - pastData) / pastData) * 100
+    // Limits Trailing Zeroes
+    const parsedCurrData = parseFloat(parseInt(currData).toFixed(2));
+    const parsedPastData = parseFloat(parseInt(pastData).toFixed(2));
+
+    const percentChange = Math.fround(
+        ((parsedCurrData - parsedPastData) / parsedPastData) * 100
     ).toFixed(2);
 
     if (percentChange > 0)
@@ -19,9 +23,9 @@ function dataToText(currData, pastData) {
             ' up ' +
             percentChange +
             '% (' +
-            currData +
+            parsedCurrData +
             ' vs ' +
-            pastData +
+            parsedPastData +
             ') ⬆'
         );
     else
@@ -29,9 +33,9 @@ function dataToText(currData, pastData) {
             ' down ' +
             percentChange +
             '% (' +
-            currData +
+            parsedCurrData +
             ' vs ' +
-            pastData +
+            parsedPastData +
             ') ⬇'
         );
 }
@@ -162,8 +166,7 @@ function top10ArticlesOutput(report, section) {
     console.log();
 
     // String that holds formatted list of top 10 articles
-    let top10ArticlesFormatted =
-        '\nPage Views: Article Link\n------------------------';
+    let top10ArticlesFormatted = '';
 
     for (i = 0; i < rows.length; i++) {
         // Dimension Label (Ex: Facebook)
@@ -172,7 +175,7 @@ function top10ArticlesOutput(report, section) {
         // pageviews formatted to fixed number of digits
         let pageviews = Number(rows[i].metrics[0].values[0]);
 
-        top10ArticlesFormatted += '\n' + pageviews + ': ' + articleLink;
+        top10ArticlesFormatted += `${articleLink}\n`;
     }
 
     // Puts string into section object
