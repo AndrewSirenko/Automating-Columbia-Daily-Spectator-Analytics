@@ -20,9 +20,13 @@ async function generateWeeklyReportDoc(filename, data) {
 
     // For each section, mergeTemplate all of its strings
     dataArray.forEach(([sectionName, value]) => {
+        console.log(`Merging ${sectionName}...`);
         // Must include . after section name for template to work
         merge(copyId, value, '' + sectionName + '.');
     });
+
+    console.log('Find new weekly report at: ');
+    console.log('https://docs.google.com/document/d/' + copyId);
 } //TODO throw exceptions if failed
 
 // Copies letter template document using Drive API then

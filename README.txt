@@ -6,8 +6,6 @@ Ask isa
 
 
 TODO
-- Post Data to Google Docs
-    https://developers.google.com/docs/api/how-tos/merge
 - Fix eye weirdness
 - Add Progress Bar: https://www.npmjs.com/package/cli-progress
 
