@@ -78,7 +78,29 @@ async function generateWeeklyReportData() {
     // TODO throw exception for non 2xx status code
     //https://developers.google.com/analytics/devguides/reporting/core/v3/coreDevguide#request
 }
+// Creates filename based on today's date
+function generateFilename() {
+    // Yes, formatting dates really is this complicated...
+    const today = new Date();
+
+    let lastWeek = new Date();
+    lastWeek.setDate(today.getDate() - 7);
+
+    console.log(today);
+    console.log(lastWeek);
+    let todayString = today.toLocaleDateString('default', {
+        month: 'short',
+        day: '2-digit',
+    });
+    let lastWeekString = lastWeek.toLocaleDateString('default', {
+        month: 'short',
+        day: '2-digit',
+    });
+
+    return `${lastWeekString} - ${todayString} [CDS] Weekly Report`;
+}
 
 module.exports = {
-    generateWeeklyReportData
-}
+    generateWeeklyReportData,
+    generateFilename,
+};
