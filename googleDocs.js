@@ -7,22 +7,7 @@ const FOLDER_ID = '1z8V9bFSBL94TlG-qY6yb_DUHqbwycSwK';
 const TEMPLATE_DOC_ID = '13z0nQfjAa-DzD4Rq1WDOxoOTZ4GXXjB2oYWWQsPgPvY';
 
 async function generateWeeklyReportDoc() {
-    //Authorization from auth.js
-    const docs = await auth.authorizeDocs();
-
-    //Test
-    {
-        docs.documents.get(
-            {
-                documentId: '13z0nQfjAa-DzD4Rq1WDOxoOTZ4GXXjB2oYWWQsPgPvY',
-            },
-            (err, res) => {
-                if (err)
-                    return console.log('The API returned an error: ' + err);
-                console.log(`The title of the document is: ${res.data.title}`);
-            }
-        );
-    }
+    //TODO
 }
 
 // Copies letter template document using Drive API then
@@ -85,38 +70,8 @@ async function mergeTemplate(templateId, dataObject, fileName) {
     return copyId;
 }
 
-const testObj = {
-    'ga:pageviews': ' up 0.26% (34056 vs 33968) ⬆',
-    'ga:newUsers': ' down -0.33% (18181 vs 18241) ⬇',
-    'ga:sessions': ' up 1.28% (23883 vs 23580) ⬆',
-    'ga:percentNewSessions':
-        ' down -1.59% (76.12527739396224 vs 77.35793044953351) ⬇',
-    'ga:entrances': ' up 1.28% (23877 vs 23575) ⬆',
-    'ga:avgTimeOnPage': ' up 2.58% (133.61243737105806 vs 130.251419224478) ⬆',
-    'ga:users': ' up 8.64% (3054 vs 2811) ⬆',
-    mostUsersCameFrom: 'Facebook',
-    Facebook: ' up 183.91% (1147 vs 404) ⬆',
-    Instagram: ' up 375.00% (114 vs 24) ⬆',
-    LinkedIn: ' up 33.33% (32 vs 24) ⬆',
-    Twitter: ' down -27.88% (119 vs 165) ⬇',
-    mostPageViewsCameFrom: 'Organic Search',
-    'Organic Search': ' down -1.89% (25450 vs 25940) ⬇',
-    Direct: ' down -9.10% (5015 vs 5517) ⬇',
-    Social: ' up 109.48% (2166 vs 1034) ⬆',
-    top10Articles:
-        '\n' +
-        'Page Views: Article Link\n' +
-        '------------------------\n' +
-        '2302: /2000/09/15/are-you-sub-or-dom/\n' +
-        '1050: /news/2020/07/28/columbia-asked-students-to-pledge-to-ensure-a-campus-safe-from-covid-19-not-everyone-is-on-board/\n' +
-        '887: /news/2020/07/28/incoming-out-of-state-students-express-financial-and-logistical-concerns-over-new-york-quarantine-advisory/\n' +
-        '631: /spectrum/2020/07/07/main-takeaways-on-barnard-fall-2020-guidelines/\n' +
-        '347: /news/2020/07/12/students-have-been-just-as-good-as-the-police-at-enforcing-the-legacy-of-enslavement-that-would-finance-and-expand-columbias-prestige/\n' +
-        '305: /opinion/2020/07/28/our-education-is-founded-on-white-supremacy-a-conscious-re-education-is-necessary/\n' +
-        '273: /opinion/2019/03/27/discourse-and-debate-is-performative-activism-inherently-bad/\n' +
-        '164: /opinion/2019/01/31/racism-reexamined/\n' +
-        '160: /required-reading/2017/04/03/decoding-the-tricky-barnard-columbia-relationship/\n' +
-        '154: /arts-and-entertainment/2020/07/29/gentrifying-goodwill-can-columbia-students-thrift-shop-ethically/',
+module.exports = {
+    mergeTemplate,
+    generateWeeklyReportDoc,
+    copyFile,
 };
-
-mergeTemplate(TEMPLATE_DOC_ID, testObj, 'testPleaseWork');
