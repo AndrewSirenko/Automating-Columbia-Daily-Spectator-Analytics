@@ -2,3 +2,5 @@
 auth.json
 node_modules/
 TODO.txt
+.gitignore
+.DS_Store
