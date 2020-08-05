@@ -8,19 +8,19 @@ Automates Columbia Daily Spectator Weekly Analytics Report generation using Goog
 
 ## Key Files
 
--   [index.js](./index.js)
+-   [index.js](./js/index.js)
     -   Main file
--   [auth.js](./auth.js)
+-   [auth.js](./js/auth.js)
     -   Handles authorization for Google APIs
--   [processData.js](./processData.js)
+-   [processData.js](./js/processData.js)
 
     -   Generates Columbia Daily Spectator Weekly Report Data for each journalism section through Google Analytics API v4
 
--   [requestBodies.js](./requestBodies.js)
+-   [requestBodies.js](./js/requestBodies.js)
     -   Functions to create JSON objects for Google Analytics API Queries
--   [outputFunctions.js](./outputFunctions.js)
+-   [outputFunctions.js](./js/outputFunctions.js)
     -   Handles formatting and output of corresponding Google Analytics request body
--   [googleDocs.js](./googleDocs.js)
+-   [googleDocs.js](./js/googleDocs.js)
     -   Functions which merge Google Analytics data with [Weekly Report Template](./CDS_Analytics_Overview/TEMPLATE%20[CDS]%20Weekly%20Report.docx).
 
 ## Built With
