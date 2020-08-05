@@ -22,7 +22,7 @@ async function generateWeeklyReportDoc(filename, data) {
     dataArray.forEach(([sectionName, value]) => {
         console.log(`Merging ${sectionName}...`);
         // Must include . after section name for template to work
-        merge(copyId, value, '' + sectionName + '.');
+        merge(copyId, value, `${sectionName}.`);
     });
 
     console.log('Find new weekly report at: ');

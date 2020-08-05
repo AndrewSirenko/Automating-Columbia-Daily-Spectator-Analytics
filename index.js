@@ -1,11 +1,11 @@
 'use strict';
 
-const { google } = require('googleapis');
 const processData = require('./processData');
 const googleDocs = require('./googleDocs');
 
 // GETs data from Analytics API and POSTs to Google Doc template
 async function generateWeeklyReport() {
+    // Generates Filename with current date
     const filename = processData.generateFilename();
 
     console.log(`\nGenerating ${filename}...\n`);

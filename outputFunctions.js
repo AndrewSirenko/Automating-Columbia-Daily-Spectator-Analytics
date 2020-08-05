@@ -19,25 +19,9 @@ function dataToText(currData, pastData) {
     ).toFixed(2);
 
     if (percentChange > 0)
-        return (
-            ' up ' +
-            percentChange +
-            '% (' +
-            parsedCurrData +
-            ' vs ' +
-            parsedPastData +
-            ') ⬆'
-        );
+        return ` up ${percentChange}% (${parsedCurrData} vs ${parsedPastData}) ⬆`;
     else
-        return (
-            ' down ' +
-            percentChange +
-            '% (' +
-            parsedCurrData +
-            ' vs ' +
-            parsedPastData +
-            ') ⬇'
-        );
+        return ` down ${percentChange}% (${parsedCurrData} vs ${parsedPastData}) ⬇`;
 }
 
 //
