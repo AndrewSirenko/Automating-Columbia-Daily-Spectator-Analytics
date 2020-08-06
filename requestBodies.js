@@ -263,11 +263,12 @@ function requestBodiesSection(section) {
     let copyDR = defaultRequest;
     let copyDCG = defaultChannelGrouping;
     let copyTop10 = top10Articles;
-
+    let copySocial = socialNetwork;
     // Adds pagePath filter to default request body
     sectionRequests.push(addPagePathLevel1Filter(section, copyDR));
     sectionRequests.push(addPagePathLevel1Filter(section, copyDCG));
     sectionRequests.push(addPagePathLevel1Filter(section, copyTop10));
+    sectionRequests.push(addPagePathLevel1Filter(section, copySocial));
 
     return sectionRequests;
 }
