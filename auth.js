@@ -9,7 +9,7 @@ const ANALYTICS_SCOPES = ['https://www.googleapis.com/auth/analytics.readonly'];
 const DOCS_SCOPES = ['https://www.googleapis.com/auth/drive'];
 const DRIVE_SCOPES = ['https://www.googleapis.com/auth/drive'];
 // Path to service account json
-const SERVICE_ACCOUNT_FILE = '/Users/Andrew/Dev/spec/auth.json';
+const SERVICE_ACCOUNT_FILE = './auth.json';
 
 // Create a new JWT client using the key file downloaded from the Google Developer Console
 const authJWT = new google.auth.GoogleAuth({
