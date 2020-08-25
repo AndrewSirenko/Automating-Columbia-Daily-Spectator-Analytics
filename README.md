@@ -8,19 +8,19 @@ Automates Columbia Daily Spectator Weekly Analytics Report generation using Goog
 
 ## Key Files
 
--   [index.js](https://github.com/AndrewSirenko/Automating-Columbia-Daily-Spectator-Analytics/blob/master/js/index.js)
+-   [index.js](https://github.com/AndrewSirenko/Automating-Columbia-Daily-Spectator-Analytics/blob/master/index.js)
     -   Main file
--   [auth.js](https://github.com/AndrewSirenko/Automating-Columbia-Daily-Spectator-Analytics/blob/master/js/auth.js)
+-   [auth.js](https://github.com/AndrewSirenko/Automating-Columbia-Daily-Spectator-Analytics/blob/master/auth.js)
     -   Handles authorization for Google APIs
--   [processData.js](https://github.com/AndrewSirenko/Automating-Columbia-Daily-Spectator-Analytics/blob/master/js/processData.js)
+-   [processData.js](https://github.com/AndrewSirenko/Automating-Columbia-Daily-Spectator-Analytics/blob/master/processData.js)
 
     -   Generates Columbia Daily Spectator Weekly Report Data for each journalism section through Google Analytics API v4
 
--   [requestBodies.js](https://github.com/AndrewSirenko/Automating-Columbia-Daily-Spectator-Analytics/blob/master/js/requestBodies.js)
+-   [requestBodies.js](https://github.com/AndrewSirenko/Automating-Columbia-Daily-Spectator-Analytics/blob/master/requestBodies.js)
     -   Functions to create JSON objects for Google Analytics API Queries
--   [outputFunctions.js](https://github.com/AndrewSirenko/Automating-Columbia-Daily-Spectator-Analytics/blob/master/js/outputFunctions.js)
+-   [outputFunctions.js](https://github.com/AndrewSirenko/Automating-Columbia-Daily-Spectator-Analytics/blob/master/outputFunctions.js)
     -   Handles formatting and output of corresponding Google Analytics request body
--   [googleDocs.js](https://github.com/AndrewSirenko/Automating-Columbia-Daily-Spectator-Analytics/blob/master/js/googleDocs.js)
+-   [googleDocs.js](https://github.com/AndrewSirenko/Automating-Columbia-Daily-Spectator-Analytics/blob/master/googleDocs.js)
     -   Functions which merge Google Analytics data with [Weekly Report Template](./CDS_Analytics_Overview/TEMPLATE%20[CDS]%20Weekly%20Report.docx).
 
 ## Built With
