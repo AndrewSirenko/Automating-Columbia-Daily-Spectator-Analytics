@@ -1,5 +1,4 @@
 .env
-auth.json
 node_modules/
 TODO.txt
 .gitignore

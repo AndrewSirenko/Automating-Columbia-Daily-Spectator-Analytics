@@ -9,6 +9,8 @@
 const outputFunctions = require('./outputFunctions');
 // For deep cloning... Because I couldn't find a native solution
 const clonedeep = require('lodash.clonedeep');
+const editMe = require('./editMe');
+const VIEW_ID = editMe.VIEW_ID;
 
 // Sections of Spec (not Overall CDS)
 const sectionsArr = [
@@ -23,7 +25,7 @@ const sectionsArr = [
 // Contains the viewId and dateRanges
 //   to be used in other request bodies with ... spread operator
 const viewAndDates = {
-    viewId: '7024503',
+    viewId: VIEW_ID,
 
     dateRanges: [
         {

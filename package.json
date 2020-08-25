@@ -1,7 +1,7 @@
 {
-    "name": "spec-analytics",
+    "name": "Auto-Generate-Analytics-Doc",
     "version": "1.0.0",
-    "description": "Uses Google Analytics API to automate analysis of www.columbiaspectator.com",
+    "description": "Uses Google Analytics and Docs APIs to automate analytics report generation of any website.",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"

@@ -2,9 +2,9 @@ const auth = require('./auth.js');
 const { docs } = require('googleapis/build/src/apis/docs');
 
 // FolderId of folder which stores weekly reports
-const FOLDER_ID = '1z8V9bFSBL94TlG-qY6yb_DUHqbwycSwK';
+const FOLDER_ID = editMe.FOLDER_ID;
 // Doc ID of template document
-const TEMPLATE_DOC_ID = '13z0nQfjAa-DzD4Rq1WDOxoOTZ4GXXjB2oYWWQsPgPvY';
+const TEMPLATE_DOC_ID = editMe.TEMPLATE_DOC_ID;
 
 async function generateWeeklyReportDoc(filename, data) {
     console.log('\nGenerating document...\n');
