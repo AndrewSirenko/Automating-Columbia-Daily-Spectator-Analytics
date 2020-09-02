@@ -1,6 +1,6 @@
 const dotenv = require('dotenv').config();
 const { google } = require('googleapis');
-const key = require('./auth.json');
+const key = require('./specAuth.json');
 const fs = require('fs');
 
 // Sets Analytics API scope: read only (to view reports)
@@ -9,7 +9,7 @@ const ANALYTICS_SCOPES = ['https://www.googleapis.com/auth/analytics.readonly'];
 const DOCS_SCOPES = ['https://www.googleapis.com/auth/drive'];
 const DRIVE_SCOPES = ['https://www.googleapis.com/auth/drive'];
 // Path to service account json
-const SERVICE_ACCOUNT_FILE = './auth.json';
+const SERVICE_ACCOUNT_FILE = process.env.GOOGLE_APP_CREDENTIALS_JSON;
 
 // Create a new JWT client using the key file downloaded from the Google Developer Console
 const authJWT = new google.auth.GoogleAuth({
