@@ -80,7 +80,7 @@ async function merge(docId, dataObject, sectionName = '') {
         resource: { requests },
     });
 
-    console.log(res.data.replies);
+    //console.log(res.data.replies);
 
     return docId;
 }

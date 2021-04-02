@@ -3,7 +3,7 @@
  */
 
 const { google } = require('googleapis');
-const key = require('./auth.json');
+const key = require('./specAuth.json');
 const fs = require('fs');
 const requestBodies = require('./requestBodies');
 
